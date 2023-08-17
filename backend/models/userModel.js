@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-const { Schema, model } = mongoose;
 
 const userSchema = new mongoose.Schema(
   {
@@ -32,12 +31,17 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "user",
     },
+    isBlocked: {
+      type: Boolean,
+      default: false,
+    },
     cart: {
       type: Array,
       default: [],
     },
-    address: [{ type: Schema.Types.ObjectId, ref: "Address" }],
-    wishlist: [{ type: Schema.Types.ObjectId, ref: "Product" }],
+    address: [{ type: mongoose.Schema.Types.ObjectId, ref: "Address" }],
+    wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
+    refreshToken: { type: String },
   },
   { timestamps: true }
 );
@@ -64,3 +68,6 @@ userSchema.methods.isPasswordMatched = async function (enteredPassword) {
 const User = mongoose.model("User", userSchema);
 
 export default User;
+
+//if i implement user is unique first and later in remove it but it create a instance of it so we have to remove it by below method
+//mongoose.connection.collection("users").dropIndex("lastName_1");

@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import dbConnect from "./config/dbConnect.js";
 import authRouter from "./routes/authRoutes.js";
-import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 import { errorHandler, notFound } from "./middleware/errorHandler.js";
 const app = express();
 dbConnect();
@@ -11,6 +11,7 @@ const PORT = process.env.PORT || 4000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser())
 // app.use("/", (req, res) => {
 //   res.send("Hello from server side");
 // });
