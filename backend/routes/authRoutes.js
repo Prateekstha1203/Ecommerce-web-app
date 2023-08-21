@@ -10,6 +10,8 @@ import {
   unblockUser,
   handleRefreshToken,
   logOutUser,
+  updatePassword,
+  forgetPasswordToken,
 } from "../controller/userController.js";
 import { authMiddleware, isAdmin } from "../middleware/authMiddleware.js";
 const router = express.Router();
@@ -24,5 +26,7 @@ router.delete("/:userId", deleteUser);
 router.put("/edit-user", authMiddleware, updateUser);
 router.put("/block-user/:id", authMiddleware, isAdmin, blockUser);
 router.put("/unblock-user/:id", authMiddleware, isAdmin, unblockUser);
+router.put("/password", authMiddleware, isAdmin, updatePassword);
+router.post("/forget-password-token", forgetPasswordToken);
 
 export default router;

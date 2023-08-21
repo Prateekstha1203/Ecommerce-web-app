@@ -4,6 +4,7 @@ import { generateToken } from "../config/jsonWebToken.js";
 import { generateRefreshToken } from "../config/refreshToken.js";
 import { validMongodbId } from "../utils/validateMongodbId.js";
 import jwt from "jsonwebtoken";
+import { sendEmail } from "./emailController.js";
 export const createUser = expressAsyncHandler(async (req, res) => {
   const userExist = req.body.email;
   try {
@@ -88,7 +89,7 @@ export const logOutUser = expressAsyncHandler(async (req, res) => {
   await User.findByIdAndUpdate(user._id, { refreshToken: "" });
 
   res.clearCookie("refreshToken", { httpOnly: false, secure: true });
-  return res.sendStatus(204).json({message:"User logout successfully"}); //forbidden
+  return res.sendStatus(204).json({ message: "User logout successfully" }); //forbidden
 });
 
 export const getAllUsers = expressAsyncHandler(async (req, res) => {
@@ -113,7 +114,7 @@ export const getSingleUser = expressAsyncHandler(async (req, res) => {
 
 export const deleteUser = expressAsyncHandler(async (req, res) => {
   const { userId } = req.params;
-  validMongodbId();
+  validMongodbId(userId);
   console.log(userId);
   try {
     const removedUser = await User.findByIdAndDelete(userId);
@@ -177,6 +178,44 @@ export const unblockUser = expressAsyncHandler(async (req, res, next) => {
       { new: true }
     );
     res.json({ message: "User is unblocked", unblockedUser });
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+export const updatePassword = expressAsyncHandler(async (req, res, next) => {
+  const { _id } = req.user;
+  const { password } = req.body;
+  validMongodbId(_id);
+  const user = await User.findById(_id);
+  console.log(user);
+
+  if (password) {
+    user.password = password;
+    const updatedUser = await user.save();
+    res.json(updatedUser);
+  } else {
+    res.json(user);
+  }
+});
+
+export const forgetPasswordToken = expressAsyncHandler(async (req, res) => {
+  
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+  if (!user) throw new Error("User not found with this email");
+  try {
+    const token = await user.createResetToken();
+    await user.save();
+    const resetUrl = `Hi. Please follow this link to reset your passsword. This link is valid till 10 minutes from now.  <a href="http://localhost:5000/api/user/reset-password/${token}">Click Me</a>`;
+    const data = {
+      to: email,
+      text: "Hey User!",
+      subject: "Forget Password Link",
+      htm: resetUrl,
+    };
+    sendEmail(data);
+    res.json(token);
   } catch (error) {
     throw new Error(error);
   }
