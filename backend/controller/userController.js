@@ -103,7 +103,7 @@ export const getAllUsers = expressAsyncHandler(async (req, res) => {
 
 export const getSingleUser = expressAsyncHandler(async (req, res) => {
   const { userId } = req.params;
-  validMongodbId();
+  validMongodbId(userId);
   try {
     const userDetail = await User.findById(userId);
     res.send(userDetail);

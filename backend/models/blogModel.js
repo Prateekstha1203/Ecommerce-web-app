@@ -1,4 +1,4 @@
-const mongoose = require("mongoose"); // Erase if already required
+import mongoose from "mongoose";
 
 // Declare the Schema of the Mongo model
 var blogSchema = new mongoose.Schema(
@@ -13,7 +13,7 @@ var blogSchema = new mongoose.Schema(
     },
     noOfViews: {
       type: Number,
-      required: true,
+      default: 0,
     },
     category: {
       type: String,
@@ -52,4 +52,6 @@ var blogSchema = new mongoose.Schema(
 );
 
 //Export the model
-module.exports = mongoose.model("Blog", blogSchema);
+const Blog = mongoose.model("Blog", blogSchema);
+
+export default Blog;
