@@ -2,6 +2,7 @@ import { query } from "express";
 import Product from "../models/productModel.js";
 import expressAsyncHandler from "express-async-handler";
 import slugify from "slugify";
+import User from "../models/userModel.js";
 export const createProduct = expressAsyncHandler(async (req, res) => {
   try {
     if (req.body.title) {
@@ -69,73 +70,6 @@ export const getAllProduct = expressAsyncHandler(async (req, res) => {
   }
 });
 
-// export const getAllProduct = expressAsyncHandler(async (req, res) => {
-//   try {
-//     const queryParams = { ...req.query };
-//     const removableObject = ["page", "limit", "sort", "field"];
-//     removableObject.forEach((object) => delete queryParams[object]);
-
-//     let queryString = JSON.stringify(queryParams);
-//     queryString = queryString.replace(
-//       /\b(gte|gt|lt|lte)\b/g,
-//       (match) => `$${match}`
-//     );
-//     let query = Product.find(JSON.parse(queryString));
-
-//     if (req.query.sort) {
-//       const sortBy = req.query.sort.split(",").join(" ");
-//       query = query.sort(sortBy);
-//     } else {
-//       query = query.sort("-createdAt");
-//     }
-//     if (req.query.field) {
-//       const fields = req.query.field.split(",").join(" ");
-//       query = query.select("__v " + fields); // Include '__v' along with specified fields
-//     } else {
-//       query = query.select("__v"); // Only '__v'
-//     }
-
-//     let product = await query;
-//     console.log(product); // Log the product array, not the query
-
-//     res.json(product); // Send the product array as the response
-//   } catch (error) {
-//     throw new Error(error);
-//   }
-// });
-
-// export const getAllProduct = expressAsyncHandler(async (req, res) => {
-//   try {
-//     const queryObj = { ...req.query };
-//     const executableObj = ["page", "sort", "limit", "fields"];
-//     executableObj.forEach((eObj) => delete queryObj[eObj]);
-
-//     console.log("Modified query object:", queryObj);
-
-//     let queryString = JSON.stringify(queryObj);
-//     console.log("Modified query string:", queryString);
-
-//     queryString = queryString.replace(
-//       /\b(gte|gt|lte|lt)\b/g,
-//       (match) => `$${match}`
-//     );
-//     console.log("Final query string:", queryString);
-
-//     const query = Product.find(JSON.parse(queryString));
-//     console.log("MongoDB query:", query.getFilter());
-
-//     const products = await query.exec();
-//     console.log("Products found:", products);
-
-//     res.json(products);
-//   } catch (error) {
-//     console.error(error);
-//     res
-//       .status(500)
-//       .json({ message: "Error fetching products", error: error.message });
-//   }
-// });
-
 export const updateProduct = expressAsyncHandler(async (req, res) => {
   const { _id } = req.params;
   try {
@@ -166,4 +100,84 @@ export const deleteProduct = expressAsyncHandler(async (req, res) => {
       .status(500)
       .json({ message: "Error deleting product", error: err.message });
   }
+});
+
+export const addWishlist = expressAsyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  const { prodId } = req.body;
+  try {
+    const user = await User.findById(_id);
+    const alreadyExist = await user?.wishlist.find(
+      (id) => id.toString() === prodId.toString()
+    );
+    if (alreadyExist) {
+      let userData = await User.findByIdAndUpdate(
+        _id,
+        { $pull: { wishlist: prodId } },
+        { new: true }
+      );
+      res.json(userData);
+    } else {
+      let userData = await User.findByIdAndUpdate(
+        _id,
+        {
+          $push: { wishlist: prodId },
+        },
+        { new: true }
+      );
+      res.json(userData);
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+export const rating = expressAsyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  const { prodId, star } = req.body;
+  try {
+    const product = await Product.findById(prodId);
+    if (!product) {
+      throw new Error("Product does not exist");
+    }
+
+    const alreadyExist = product?.rating.find(
+      (rating) => rating.postedBy.toString() === _id.toString()
+    );
+
+    if (alreadyExist) {
+      const userData = await Product.findOneAndUpdate(
+        { rating: { $elemMatch: { postedBy: _id } } },
+        { $set: { "rating.$.star": star } },
+        { new: true }
+      );
+    } else {
+      const userData = await Product.findByIdAndUpdate(
+        prodId,
+        {
+          $push: { rating: { postedBy: _id, star } },
+        },
+        { new: true }
+      );
+    }
+    const getAllRating = await Product.findById(prodId);
+    let totalRating = getAllRating.rating.length;
+    let ratingSum = getAllRating.rating
+      .map((item) => item.star)
+      .reduce((prev, curr) => prev + curr, 0);
+    let actualRating = Math.round(ratingSum / totalRating);
+    const finalProduct = await Product.findByIdAndUpdate(
+      prodId,
+      { totalRating: actualRating },
+      { new: true }
+    );
+    res.json(finalProduct);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+export const uploadImage = expressAsyncHandler(async (req, res) => {
+  console.log(req.files[0].filename); 
+
 });

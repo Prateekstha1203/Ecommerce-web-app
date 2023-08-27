@@ -13,12 +13,10 @@ export const createCategory = expressAsyncHandler(async (req, res) => {
 
 export const updateCategory = expressAsyncHandler(async (req, res) => {
   const { id } = req.params;
-  console.log(id)
   try {
     const newCategory = await Category.findByIdAndUpdate(id, req.body, {
       new: true,
     });
-    console.log(newCategory)
     res.json({ newCategory });
   } catch (error) {
     throw new Error(error);

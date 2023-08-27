@@ -22,7 +22,7 @@ router.get("/refresh", handleRefreshToken);
 router.get("/logout", logOutUser);
 router.get("/allUser", authMiddleware, isAdmin, getAllUsers);
 router.get("/:userId", authMiddleware, isAdmin, getSingleUser);
-router.delete("/:userId", deleteUser);
+router.delete("/:userId", authMiddleware, isAdmin,deleteUser);
 router.put("/edit-user", authMiddleware, updateUser);
 router.put("/block-user/:id", authMiddleware, isAdmin, blockUser);
 router.put("/unblock-user/:id", authMiddleware, isAdmin, unblockUser);
