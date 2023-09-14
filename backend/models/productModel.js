@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+//!mdgum
 // Declare the Schema of the Mongo model
 const productSchema = new mongoose.Schema(
   {

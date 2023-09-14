@@ -5,6 +5,12 @@ import { generateRefreshToken } from "../config/refreshToken.js";
 import { validMongodbId } from "../utils/validateMongodbId.js";
 import jwt from "jsonwebtoken";
 import { sendEmail } from "./emailController.js";
+import crypto from "node:crypto";
+
+
+
+
+//Creating user 
 export const createUser = expressAsyncHandler(async (req, res) => {
   const userExist = req.body.email;
   try {
@@ -25,6 +31,8 @@ export const createUser = expressAsyncHandler(async (req, res) => {
   }
 });
 
+
+//Login user
 export const loginUser = expressAsyncHandler(async (req, res) => {
   const { email, password } = req.body;
   //find user exist or not
@@ -55,41 +63,54 @@ export const loginUser = expressAsyncHandler(async (req, res) => {
   }
 });
 
-export const handleRefreshToken = expressAsyncHandler(async (req, res) => {
+export const logOutUser = expressAsyncHandler(async (req, res) => {
   const cookies = req?.cookies;
-  if (!cookies?.refreshToken)
-    throw new Error("There is no refresh token in cookies");
-  const refreshToken = cookies.refreshToken;
-  const user = await User.findOne({ refreshToken });
-  console.log(user);
-  if (!user)
-    throw new Error("The refresh token is not present or matched in database");
-  jwt.verify(refreshToken, process.env.SECRET_KEY, (err, decoded) => {
-    console.log(decoded.id);
-    if (err || user.id !== decoded.id)
-      throw new Error("Something went wrong with refresh token.");
-    const accessToken = generateToken(user._id);
-    res.json({ accessToken });
-  });
+  console.log(cookies);
+  try {
+    if (!cookies?.refreshToken) {
+      throw new Error("There is no refresh token in the cookies");
+    }
+    const refreshToken = cookies?.refreshToken;
+    const user = await User.findOne({ refreshToken });
+    console.log(user);
+    if (!user) {
+      res.clearCookie("refreshToken", { httpOnly: false, secure: true });
+      return res.sendStatus(204);
+    }
+
+    res.cookie("refreshToken", "", {
+      httpOnly: false,
+      secure: true,
+    });
+
+    //await User.findByIdAndUpdate(refreshToken, { refreshToken: "" });
+    await User.findByIdAndUpdate(user._id, { refreshToken: "" });
+
+    res.clearCookie("refreshToken", { httpOnly: false, secure: true });
+    return res.json({ message: "User logout successfully" }); //forbidden
+  } catch (error) {
+    throw new Error(error);
+  }
 });
 
-export const logOutUser = expressAsyncHandler(async (req, res) => {
+
+
+export const handleRefreshToken = expressAsyncHandler(async (req, res) => {
   const cookies = req.cookies;
-  if (!cookies?.refreshToken) {
-    throw new Error("There is no refresh token in the cookies");
-  }
   const refreshToken = cookies?.refreshToken;
-  const user = await User.findOne({ refreshToken });
-  if (!user) {
-    res.clearCookie("refreshToken", { httpOnly: false, secure: true });
-    return res.sendStatus(204);
-  }
+  if (refreshToken) throw new Error(" Refresh Token is not passed");
 
-  // await User.findByIdAndUpdate(refreshToken, { refreshToken: "" });
-  await User.findByIdAndUpdate(user._id, { refreshToken: "" });
+  const user = await User?.findOne({ refreshToken });
+  if (!user)
+    throw new Error("The refresh token is not present or matched in database");
 
-  res.clearCookie("refreshToken", { httpOnly: false, secure: true });
-  return res.sendStatus(204).json({ message: "User logout successfully" }); //forbidden
+  jwt.verify(refreshToken, process.env.SECRET_KEY, (err, decoded) => {
+    if (err || decoded?._id !== user?._id) {
+      throw new Error("User not matched");
+      const accessToken = generateToken(user._id);
+      res.json({ accessToken });
+    }
+  });
 });
 
 export const getAllUsers = expressAsyncHandler(async (req, res) => {
@@ -188,7 +209,6 @@ export const updatePassword = expressAsyncHandler(async (req, res, next) => {
   const { password } = req.body;
   validMongodbId(_id);
   const user = await User.findById(_id);
-  console.log(user);
 
   if (password) {
     user.password = password;
@@ -200,23 +220,38 @@ export const updatePassword = expressAsyncHandler(async (req, res, next) => {
 });
 
 export const forgetPasswordToken = expressAsyncHandler(async (req, res) => {
-  
   const { email } = req.body;
-  const user = await User.findOne({ email });
-  if (!user) throw new Error("User not found with this email");
+
   try {
+    const user = await User.findOne({ email });
+    if (!user) throw new Error("User not found with this email");
     const token = await user.createResetToken();
     await user.save();
-    const resetUrl = `Hi. Please follow this link to reset your passsword. This link is valid till 10 minutes from now.  <a href="http://localhost:5000/api/user/reset-password/${token}">Click Me</a>`;
+    const resetURL = `Hi, Please follow this link to reset Your Password. This link is valid till 10 minutes from now. <a href='http://localhost:5000/api/user/reset-password/${token}'>Click Here</>`;
     const data = {
       to: email,
-      text: "Hey User!",
-      subject: "Forget Password Link",
-      htm: resetUrl,
+      text: "Hey User",
+      subject: "Forgot Password Link",
+      htm: resetURL,
     };
     sendEmail(data);
     res.json(token);
   } catch (error) {
     throw new Error(error);
   }
+});
+export const resetPassword = expressAsyncHandler(async (req, res) => {
+  const { password } = req.body;
+  const { token } = req.params;
+  const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+  const user = await User.findOne({
+    passwordResetToken: hashedToken,
+    passwordResetExpires: { $gt: Date.now() },
+  });
+  if (!user) throw new Error(" Token Expired, Please try again later");
+  user.password = password;
+  user.passwordResetToken = undefined;
+  user.passwordResetExpires = undefined;
+  await user.save();
+  res.json(user);
 });

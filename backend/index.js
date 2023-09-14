@@ -10,6 +10,7 @@ import blogCategoryRouter from "./routes/blogCategoryRoutes.js";
 import couponRouter from "./routes/couponRoute.js";
 import cookieParser from "cookie-parser";
 import { errorHandler, notFound } from "./middleware/errorHandler.js";
+
 import morgan from "morgan";
 
 const app = express();
