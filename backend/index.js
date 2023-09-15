@@ -27,7 +27,7 @@ app.use(morgan("dev"));
 // });
 
 app.use("/api/user", authRouter);
-app.use("/api/product", productRouter);
+app.use("/api/products", productRouter);
 app.use("/api/blog", blogRouter);
 app.use("/api/category", categoryRouter);
 app.use("/api/brand", brandRouter);

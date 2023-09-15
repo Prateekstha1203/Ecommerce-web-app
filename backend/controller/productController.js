@@ -3,6 +3,8 @@ import Product from "../models/productModel.js";
 import expressAsyncHandler from "express-async-handler";
 import slugify from "slugify";
 import User from "../models/userModel.js";
+import { validMongodbId } from "../utils/validateMongodbId.js";
+import { cloudinaryUploadImg } from "../utils/cloudinary.js";
 export const createProduct = expressAsyncHandler(async (req, res) => {
   try {
     if (req.body.title) {
@@ -17,6 +19,7 @@ export const createProduct = expressAsyncHandler(async (req, res) => {
 
 export const getaProduct = expressAsyncHandler(async (req, res) => {
   const { productId } = req.params;
+  console.log(productId);
   try {
     const findProduct = await Product.findById(productId);
     res.json(findProduct);
@@ -178,6 +181,32 @@ export const rating = expressAsyncHandler(async (req, res) => {
 });
 
 export const uploadImage = expressAsyncHandler(async (req, res) => {
-  console.log(req.files[0].filename); 
-
+  const { id } = req.params;
+  console.log(id)
+   validMongodbId(id);
+  try {
+    const uploader = (path) => cloudinaryUploadImg(path, "images");
+    const urls = [];
+    const files = req.files
+    for (const file of files) {
+      console.log(files)
+      const { path } = file;
+      
+      const newPath = await uploader(path);
+      urls.push(newPath)
+    }
+    const findProduct = await Product.findByIdAndUpdate(
+      id,
+      {
+        images: urls.map((file) => {
+          console.log(file)
+          return file;
+        }),
+      },
+      { new: true }
+    );
+    res.json(findProduct)
+  } catch (error) {
+    throw new Error(error);
+  }
 });

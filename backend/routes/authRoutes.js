@@ -13,22 +13,66 @@ import {
   updatePassword,
   forgetPasswordToken,
   resetPassword,
+  loginAdmin,
+  saveAddress,
+  userCart,
+  getWishlist,
+  getUserCart,
+  emptyCart,
+  applyCoupon,
+  createOrder,
+  getOrders,
+  getAllOrders,
+  updateOrderStatus,
+  getOrderByUserId,
 } from "../controller/userController.js";
 import { authMiddleware, isAdmin } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
+//login and register
 router.post("/register", createUser);
 router.post("/login", loginUser);
+router.post("/admin-login", loginAdmin);
+router.get("/logout", logOutUser);
+
+//generate token and password
 router.get("/refresh", handleRefreshToken);
 router.post("/forget-password-token", forgetPasswordToken);
 router.put("/reset-password/:token", resetPassword);
-router.get("/logout", logOutUser);
-router.get("/allUser", authMiddleware, isAdmin, getAllUsers);
-router.get("/:userId", authMiddleware, isAdmin, getSingleUser);
-router.delete("/:userId", authMiddleware, isAdmin,deleteUser);
-router.put("/edit-user", authMiddleware, updateUser);
-router.put("/block-user/:id", authMiddleware, isAdmin, blockUser);
-router.put("/unblock-user/:id", authMiddleware, isAdmin, unblockUser);
 router.put("/password", authMiddleware, isAdmin, updatePassword);
 
+//CRUD OPERATION ON USER
+router.get("/allUser", authMiddleware, isAdmin, getAllUsers);
+router.get("/:userId", authMiddleware, isAdmin, getSingleUser);
+router.delete("/:userId", authMiddleware, isAdmin, deleteUser);
+router.put("/edit-user", authMiddleware, updateUser);
+
+//User block unblock
+router.put("/block-user/:id", authMiddleware, isAdmin, blockUser);
+router.put("/unblock-user/:id", authMiddleware, isAdmin, unblockUser);
+
+//others route
+router.get("/wishlist", authMiddleware, getWishlist);
+router.put("/save-address", authMiddleware, saveAddress);
+
+//Cart
+router.post("/cart", authMiddleware, userCart);
+router.get("/cart", authMiddleware, getUserCart);
+router.delete("/cart", authMiddleware, emptyCart);
+router.post("/cart/cash-order", authMiddleware, createOrder);
+
+
+//Coupon
+router.post("/cart/coupon", authMiddleware, applyCoupon);
+
+//Orders
+router.get("/get-orders", authMiddleware, getOrders);
+router.get("/getallorders", authMiddleware, isAdmin, getAllOrders);
+router.post("/getorderbyuser/:id", authMiddleware, isAdmin, getOrderByUserId);
+router.put(
+  "/order/update-order/:id",
+  authMiddleware,
+  isAdmin,
+  updateOrderStatus
+);
 export default router;

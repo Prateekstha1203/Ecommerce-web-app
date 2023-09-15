@@ -39,10 +39,7 @@ var blogSchema = new mongoose.Schema(
         ref: "User",
       },
     ],
-    image: {
-      type: String,
-      default: "http://www.ecampusnews.com/files/2016/01/blogs.jpg",
-    },
+    images: [],
     author: {
       type: String,
       default: "Admin",

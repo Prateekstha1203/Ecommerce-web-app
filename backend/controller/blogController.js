@@ -2,8 +2,8 @@ import Blog from "../models/blogModel.js";
 import User from "../models/userModel.js";
 import expressAsyncHandler from "express-async-handler";
 import { validMongodbId } from "../utils/validateMongodbId.js";
-// import validMongodbId from "../utils/validateMongodbId.jsvalidMongodbId.js";
-
+import Product from "../models/productModel.js";
+import { cloudinaryUploadImg } from "../utils/cloudinary.js";
 export const createBlog = expressAsyncHandler(async (req, res) => {
   try {
     const newBlog = await Blog.create(req.body);
@@ -141,6 +141,36 @@ export const dislikeBlog = expressAsyncHandler(async (req, res) => {
     }
     const updatedBlog = await Blog.findById(blogId);
     res.json(updatedBlog);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+export const blogImageUploader = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  validMongodbId(id);
+  try {
+    const uploader = (path) => cloudinaryUploadImg(path, "images");
+    const files = req.files;
+    console.log(files);
+    let url = [];
+    for (const file of files) {
+      console.log(file.path);
+      const { path } = file;
+      const newPath = await uploader(path);
+      url.push(newPath);
+    }
+    const findProduct = await Blog.findByIdAndUpdate(
+      id,
+      {
+        images: url.map((file) => {
+          return file;
+        }),
+      },
+      { new: true }
+    );
+    res.json(findProduct);
   } catch (error) {
     throw new Error(error);
   }

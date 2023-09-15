@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 //!mdgum
 // Declare the Schema of the Mongo model
 const productSchema = new mongoose.Schema(
@@ -38,10 +39,7 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
     sold: { type: Number, default: 0 },
-    image: {
-      type: Array,
-      //select:false,
-    },
+    images: [],
     color: {
       type: String,
       //   enum: ["Black", "Blue", "Red"],

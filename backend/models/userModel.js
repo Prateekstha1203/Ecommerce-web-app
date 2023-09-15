@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
-    address: [{ type: mongoose.Schema.Types.ObjectId, ref: "Address" }],
+    address: { type: String },
     wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
     refreshToken: { type: String },
     passwordChangedAt: Date,
@@ -48,7 +48,7 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
- 
+
 const saltRounds = 10;
 userSchema.pre("save", async function (next) {
   try {
