@@ -1,5 +1,4 @@
 import React from "react";
-import { BsSearch } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { BsLinkedin, BsGithub, BsYoutube, BsInstagram } from "react-icons/bs";
 const Footer = () => {
@@ -10,7 +9,7 @@ const Footer = () => {
           <div className="row align-items-center">
             <div className="col-5">
               <div className="footer-top-data d-flex gap-30 align-items-center">
-                <img src="images/newsletter.png"></img>
+                <img src="images/newsletter.png" alt="newsletter" />
                 <h2 className="mb-0 text-white"> Sign up for Newsletter</h2>
               </div>
             </div>
@@ -18,7 +17,7 @@ const Footer = () => {
               <div className="input-group">
                 <input
                   type="text"
-                  class="form-control py-1"
+                  className="form-control py-1"
                   placeholder="Your Email Address"
                   aria-label="Your Email Address"
                   aria-describedby="basic-addon2"
@@ -50,16 +49,16 @@ const Footer = () => {
                   prateekshrestha1203@gmail.com
                 </a>
                 <div className="social_icons d-flex align-items-center gap-30">
-                  <a href="" className="text-white">
+                  <a href="https://www.linkedin.com/" className="text-white">
                     <BsLinkedin className="fs-4" />
                   </a>
-                  <a href="" className="text-white">
+                  <a href="https://www.github.com/" className="text-white">
                     <BsGithub className="fs-4" />
                   </a>
-                  <a href="" className="text-white">
+                  <a href="https://www.youtube.com/" className="text-white">
                     <BsYoutube className="fs-4" />
                   </a>
-                  <a href="" className="text-white">
+                  <a href="https://www.instagram.com/" className="text-white">
                     <BsInstagram className="fs-4" />
                   </a>
                 </div>

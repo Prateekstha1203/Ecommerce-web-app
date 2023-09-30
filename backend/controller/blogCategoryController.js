@@ -53,3 +53,5 @@ export const getSingleCategory = expressAsyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
+
+
