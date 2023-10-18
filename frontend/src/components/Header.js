@@ -5,7 +5,7 @@ const Header = () => {
   return (
     <>
       <header className="header-top-strip py-3">
-        <div className="container">
+        <div className="container-xxl">
           <div className="row">
             <div className="col-6">
               <p className="text-white mb-0">
@@ -24,7 +24,7 @@ const Header = () => {
         </div>
       </header>
       <header className="header-upper py-3">
-        <div className="container">
+        <div className="container-xxl">
           <div className="row align-items-center">
             <div className="col-2">
               <h2>
@@ -35,20 +35,20 @@ const Header = () => {
               <div className="input-group">
                 <input
                   type="text"
-                  className="form-control py-2"
+                  class="form-control py-2"
                   placeholder="Search Product here..."
                   aria-label="Search Product here..."
                   aria-describedby="basic-addon2"
                 />
                 <span className="input-group-text p-3" id="basic-addon2">
-                  <BsSearch className="fs-5" />
+                  <BsSearch className="fs-6" />
                 </span>
               </div>
             </div>
             <div className="col-5">
               <div className="header-upper-links d-flex align-items-center justify-content-between">
                 <div>
-                  <Link to="/compare-products" className="d-flex align-items-center gap-10 text-white">
+                  <Link className="d-flex align-items-center gap-10 text-white">
                     <img src="/images/compare.svg" alt="compare"></img>
                     <p className="mb-0">
                       Compare
@@ -57,7 +57,7 @@ const Header = () => {
                   </Link>
                 </div>
                 <div>
-                  <Link to="/wishlist" className="d-flex align-items-center gap-10 text-white">
+                  <Link className="d-flex align-items-center gap-10 text-white">
                     <img src="/images/wishlist.svg" alt="wishlist"></img>
                     <p className="mb-0">
                       Favourite
@@ -66,7 +66,7 @@ const Header = () => {
                   </Link>
                 </div>
                 <div>
-                  <Link to="/login" className="d-flex align-items-center gap-10 text-white">
+                  <Link className="d-flex align-items-center gap-10 text-white">
                     <img src="/images/user.svg" alt="user"></img>
                     <p className="mb-0">
                       Login
@@ -75,7 +75,7 @@ const Header = () => {
                   </Link>
                 </div>
                 <div>
-                  <Link to="/cart" className="d-flex align-items-center gap-10 text-white">
+                  <Link className="d-flex align-items-center gap-10 text-white">
                     <img src="/images/cart.svg" alt="cart"></img>
                     <div className="d-flex flex-column gap-10">
                       <span className="badge bg-white text-dark">0</span>
@@ -89,7 +89,7 @@ const Header = () => {
         </div>
       </header>
       <header className="header-bottom py-3">
-        <div className="container">
+        <div className="container-xxl">
           <div className="row">
             <div className="col-12">
               <div className="menu-bottom d-flex align-items-center gap-30">
@@ -102,7 +102,7 @@ const Header = () => {
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      <img src="images/menu.svg" alt="menu"/>
+                      <img src="images/menu.svg"></img>
                       <span className="me-5 d-inline-block">Shop categories</span>
                     </button>
                     <ul
@@ -129,11 +129,15 @@ const Header = () => {
                 </div>
                 <div className="menu-links">
                   <div className="d-flex align-align-items-center gap-15">
+<<<<<<< HEAD
                     <NavLink to="/">Home</NavLink>
+                    <NavLink to="/product">Our Store</NavLink>
+=======
+                    <NavLink to="/home">Home</NavLink>
                     <NavLink to="/store">Our Store</NavLink>
+>>>>>>> parent of 11da0cb (static home page, store page, contact page, blog page and login register page:)
                     <NavLink to="/blogs">Blogs</NavLink>
                     <NavLink to="/contact">Contact</NavLink>
-                    <NavLink to="/dashboard">Dashboard</NavLink>
                   </div>
                 </div>
               </div>

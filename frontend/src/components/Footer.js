@@ -1,4 +1,5 @@
 import React from "react";
+import { BsSearch } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { BsLinkedin, BsGithub, BsYoutube, BsInstagram } from "react-icons/bs";
 const Footer = () => {
@@ -9,7 +10,7 @@ const Footer = () => {
           <div className="row align-items-center">
             <div className="col-5">
               <div className="footer-top-data d-flex gap-30 align-items-center">
-                <img src="images/newsletter.png" alt="newsletter" />
+                <img src="images/newsletter.png"></img>
                 <h2 className="mb-0 text-white"> Sign up for Newsletter</h2>
               </div>
             </div>
@@ -17,7 +18,7 @@ const Footer = () => {
               <div className="input-group">
                 <input
                   type="text"
-                  className="form-control py-1"
+                  class="form-control py-1"
                   placeholder="Your Email Address"
                   aria-label="Your Email Address"
                   aria-describedby="basic-addon2"
@@ -49,16 +50,16 @@ const Footer = () => {
                   prateekshrestha1203@gmail.com
                 </a>
                 <div className="social_icons d-flex align-items-center gap-30">
-                  <a href="https://www.linkedin.com/" className="text-white">
+                  <a href="" className="text-white">
                     <BsLinkedin className="fs-4" />
                   </a>
-                  <a href="https://www.github.com/" className="text-white">
+                  <a href="" className="text-white">
                     <BsGithub className="fs-4" />
                   </a>
-                  <a href="https://www.youtube.com/" className="text-white">
+                  <a href="" className="text-white">
                     <BsYoutube className="fs-4" />
                   </a>
-                  <a href="https://www.instagram.com/" className="text-white">
+                  <a href="" className="text-white">
                     <BsInstagram className="fs-4" />
                   </a>
                 </div>
@@ -67,21 +68,21 @@ const Footer = () => {
             <div className="col-3">
               <h4 className="text-white mb-4">Information</h4>
               <div className="footer-links d-flex flex-column">
-                <Link className="text-white py-2 mb-1">Privacy Policy</Link>
-                <Link className="text-white py-2 mb-1">Refund Policy</Link>
-                <Link className="text-white py-2 mb-1">Shipping Policy</Link>
-                <Link className="text-white py-2 mb-1">
+                <Link className="text-white py-2 mb-1" to="/privacy-policy">Privacy Policy</Link>
+                <Link className="text-white py-2 mb-1" to="/refund-policy">Refund Policy</Link>
+                <Link className="text-white py-2 mb-1"to="/shipping-policy">Shipping Policy</Link>
+                <Link className="text-white py-2 mb-1" to="/terms-conditions">
                   Terms and Conditions
                 </Link>
-                <Link className="text-white py-2 mb-1">Blogs</Link>
+                <Link className="text-white py-2 mb-1" to="/blogs">Blogs</Link>
               </div>
             </div>
             <div className="col-3">
-              <h4 className="text-white mb-4">Account</h4>
+              <h4 className="text-white mb-4" >Account</h4>
               <div className="footer-links d-flex flex-column">
-                <Link className="text-white py-2 mb-1">About Us</Link>
-                <Link className="text-white py-2 mb-1">FAQ</Link>
-                <Link className="text-white py-2 mb-1">Contact</Link>
+                <Link className="text-white py-2 mb-1" to="/aboutus">About Us</Link>
+                <Link className="text-white py-2 mb-1" to="faq">FAQ</Link>
+                <Link className="text-white py-2 mb-1" to="/contact">Contact</Link>
               </div>
             </div>
             <div className="col-2">

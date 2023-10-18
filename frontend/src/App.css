@@ -8,12 +8,6 @@
   --color-3b4149: #3b4149;
   --color-febd69: #febd69;
   --color-232f3e: #232f3e;
-  --color-bf4800: #bf4800;
-  --color-f5f5f7: #f5f5f7;
-  --color-ededed: #ededed;
-  --color-777777: #777777;
-  --color-131921: #131921;
-  --color-1c1c1b: #1c1c1b;
 }
 body {
   font-family: "Rubik", sans-serif;
@@ -40,22 +34,7 @@ a {
 .gap-30 {
   gap: 30px;
 }
-.gap-20 {
-  gap: 20px;
-}
 
-.button {
-  background-color: var(--color-232f3e);
-  color: white;
-  font-size: 14px;
-  padding: 13px 33px;
-  border-radius: 25px;
-}
-
-.button:hover {
-  background-color: var(--color-febd69);
-  color: #131921;
-}
 /* HEADER PART */
 .header-top-strip {
   background-color: var(--color-131921);
@@ -69,12 +48,10 @@ a {
 }
 
 .header-upper .header-upper-links img {
-  height: 24px;
-  width: 24px;
+  height: 35px;
+  width: 35px;
 }
-.header-upper .header-upper-links p {
-  font-size: 14px;
-}
+
 .header-bottom {
   background-color: var(--color-232f3e);
 }
@@ -137,6 +114,7 @@ input {
   font-size: 1rem;
   width: 80%;
 }
+<<<<<<< HEAD
 
 /* home-page start here */
 .main-banner-content {
@@ -300,9 +278,6 @@ input {
   overflow: hidden;
   width: 100%;
 }
-
-
-
 
 .product-card:hover .product-actions {
   right: 23px;
@@ -642,14 +617,15 @@ special-product-content {
   border-color: transparent;
 }
 
-.auth-card .form-group {
+/* .auth-card .form-group {
   display: flex;
   justify-content: center;
   align-items: center;
-}
+  
+} */
 .auth-card .form-group label {
   width: 30%;
-text-align: start;
+  text-align: start;
 }
 
 .auth-card a,
@@ -659,32 +635,235 @@ text-align: start;
   color: var(--color-1c1c1b);
 }
 
-.auth-card .signup {
+.signup {
   background-color: var(--color-febd69);
   color: var(--color-131921);
+  border: none;
 }
 
-.auth-card .signup:hover {
+.signup:hover {
   background-color: var(--color-131921);
   color: white;
 }
 /* -----------------------Our Authentication page ends from here------------------------- */
 
-
-.single-blog h3{
+.single-blog h3 {
   font-size: 24px;
   font-weight: 600;
   color: var(--color-1c1c1b);
-
 }
-.single-blog p{
+.single-blog p {
   color: var(--color-777777);
   font-size: 14px;
 }
 
-.back-btn{
+.back-btn {
   font-size: 15px;
   color: var(--color-777777);
   margin-bottom: 20px;
-
 }
+.single-blog-card a {
+  color: var(--color-777777);
+  font-size: 18px;
+  letter-spacing: 0.3px;
+  margin-bottom: 20px;
+}
+
+/* -----------------------Policy  page starts from here------------------------- */
+
+.policy-card {
+  padding: 30px;
+  background-color: white;
+  /* width: 500px; */
+  margin: 30px auto;
+}
+/* -----------------------Policy page ends from here------------------------- */
+
+/* -----------------------Main Product page starts from here------------------------- */
+.main-product-image {
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+}
+.main-product-image-wrapper {
+  height: 500px;
+  width: 100%;
+}
+
+.main-product-image-wrapper img {
+  width: 100% !important;
+  height: 500px !important;
+  object-fit: contain;
+}
+
+.main-product-image .js-image-zoom__zoomed-image {
+  left: px;
+  padding: 10px;
+  background-color: white;
+  border-radius: 10px;
+  z-index: 100;
+}
+
+.main-product-image > div {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.other-product-image {
+  background-color: white;
+  padding: 20px;
+}
+.other-product-image > div {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 3px;
+  width: 48%;
+  height: 150px;
+}
+
+.other-product-image > div img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.border-bottom {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.main-product-details h3.title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-1c1c1b);
+}
+
+.main-product-details p.price {
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.main-product-details a {
+  font-size: 13px;
+  color: var(--color-777777);
+  display: flex;
+  align-items: center;
+  padding: 20px 0;
+  gap: 10px;
+  margin-bottom: 0;
+}
+
+.main-product-details .review {
+  color: var(--color-777777);
+  font-size: 13px;
+}
+.product-heading {
+  font-size: 14px;
+  color: var(--color-1c1c1b);
+  margin: 0;
+}
+.product-data {
+  font-size: 13px;
+  color: var(--color-777777);
+  margin: 0;
+}
+
+.description-wrapper h4 {
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--color-1c1c1b);
+}
+
+.description-wrapper p {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-777777);
+}
+
+.review-inner-wrapper {
+  background-color: white;
+  padding: 30px;
+}
+
+.review-head {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 20px;
+}
+
+.review-head p,
+.review-head a {
+  font-size: 18px;
+  color: var(--color-777777);
+}
+
+.review-head .review-form label {
+  font-size: 16px;
+  color: var(--color-777777);
+}
+.review:not(:last-child) {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.review p {
+  font-size: 14px;
+  color: var(--color-777777);
+}
+.review h6 {
+  margin: 0;
+}
+.review-head .review-list .review {
+  padding: 20px 0;
+}
+
+.main-product-details {
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+/* -----------------------Main Product page ends from here------------------------- */
+
+/* -----------------------Cart page starts from here------------------------- */
+
+.cart-header {
+  border-bottom: 1px solid #eaeaea;
+}
+
+.cart-header h4 {
+  font-size: 13px;
+  color: var(--color-777777);
+}
+.cart-col-1 {
+  width: 40%;
+}
+.cart-col-2 {
+  width: 10%;
+}
+.cart-col-3 {
+  width: 15%;
+}
+.cart-col-1 {
+  width: 15%;
+}
+
+.cart-img img {
+  height: 120px !important;
+  width: 100px !important;
+  object-fit: cover;
+}
+.cart-body h5.price {
+  font-size: 15px;
+  color: var(--color-1c1c1b);
+  font-weight: 700;
+}
+
+.cart-body h5.title,
+.cart-body p {
+  font-size: 14px;
+  color: var(--color-1c1c1b);
+}
+.cart-content{
+  min-width: 150px;
+}
+/* -----------------------Cart page ends from here------------------------- */
+=======
+>>>>>>> parent of 11da0cb (static home page, store page, contact page, blog page and login register page:)

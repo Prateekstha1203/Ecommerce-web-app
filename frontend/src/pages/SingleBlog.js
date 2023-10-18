@@ -2,7 +2,7 @@ import React from "react";
 import Meta from "../components/Meta";
 import BreadCrumb from "../components/BreadCrumb";
 import { Link } from "react-router-dom";
-import BsArrowLeft from "react-icons/bs";
+import { BsArrowLeft } from "react-icons/bs";
 
 const SingleBlog = () => {
   return (
@@ -14,9 +14,8 @@ const SingleBlog = () => {
           <div className="row py-3">
             <div className="col-12">
               <div className="single-blog-card">
-                
                 <Link to="/blogs" className="d-flex gap-10 align-items-center ">
-                    <BsArrowLeft className="fs-4" />
+                  <BsArrowLeft className="fs-4" />
                   Go back to blogs
                 </Link>
                 <h3 className="title">

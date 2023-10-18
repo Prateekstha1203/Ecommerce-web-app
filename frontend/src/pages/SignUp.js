@@ -14,7 +14,7 @@ const SignUp = () => {
                 <h3 className="text-center mb-1">Create Account</h3>
                 <form action="" className="d-flex flex-column gap-15 mt-4">
                   <div className="form-group d-flex gap-20">
-                  <label for="exampleInputName1">First name: </label>
+                  <label htmlFor="exampleInputName1">First name: </label>
                     <input
                       type="text"
                       className="form-control"
@@ -23,7 +23,7 @@ const SignUp = () => {
                     />
                   </div>
                   <div className="form-group d-flex gap-20">
-                  <label for="exampleInputName1">Last name: </label>
+                  <label htmlFor="exampleInputName1">Last name: </label>
                     <input
                       type="text"
                       className="form-control"
@@ -32,7 +32,7 @@ const SignUp = () => {
                     />
                   </div>
                   <div className="form-group d-flex gap-20">
-                  <label for="exampleInputEmail1">Email: </label>
+                  <label htmlFor="exampleInputEmail1">Email: </label>
                     <input
                       type="email"
                       className="form-control"
@@ -42,7 +42,7 @@ const SignUp = () => {
                     />
                   </div>
                   <div className="form-group d-flex gap-20">
-                  <label for="exampleInputPassword1">Password: </label>
+                  <label htmlFor="exampleInputPassword1">Password: </label>
                     <input
                       type="password"
                       className="form-control"

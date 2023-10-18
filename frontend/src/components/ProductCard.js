@@ -7,13 +7,15 @@ const ProductCard = (props) => {
 
   return (
     <div
-      className={`${location.pathname === "/store" ? `gr-${grid}` : "col-3"}`}
+      className={`${location.pathname === "/product" ? `gr-${grid}` : "col-3"}`}
     >
-      <Link className="product-card position-relative">
+      <Link to="/product/:id" className="product-card position-relative">
         <div className="wishlist-icon position-absolute">
-          <Link>
-            <img src="images/wish.svg" alt="wishlist" />
-          </Link>
+          <div>
+            <Link>
+              <img src="images/wish.svg" alt="wishlist" />
+            </Link>
+          </div>
         </div>
         <div className="product-img">
           <img
@@ -31,7 +33,7 @@ const ProductCard = (props) => {
           <StarRatingComponent
             name="rate1"
             starCount={10}
-            value="3"
+            value={3}
             activeColor="#ffd700"
             edit={false}
           />
@@ -46,15 +48,21 @@ const ProductCard = (props) => {
         </div>
         <div className="product-actions position-absolute">
           <div className="d-flex flex-column gap-15">
-            <Link>
-              <img src="images/prodcompare.svg" alt="product compare" />
-            </Link>
-            <Link>
-              <img src="images/add-cart.svg" alt="add cart" />
-            </Link>
-            <Link>
-              <img src="images/view.svg" alt="view product" />
-            </Link>
+            <div>
+              <Link>
+                <img src="images/prodcompare.svg" alt="product compare" />
+              </Link>
+            </div>
+            <div>
+              <Link>
+                <img src="images/add-cart.svg" alt="add cart" />
+              </Link>
+            </div>
+            <div>
+              <Link>
+                <img src="images/view.svg" alt="view product" />
+              </Link>
+            </div>
           </div>
         </div>
       </Link>

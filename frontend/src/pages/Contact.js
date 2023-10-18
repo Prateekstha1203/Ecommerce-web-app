@@ -1,15 +1,8 @@
-import React from "react";
-import Meta from "../components/Meta";
-import BreadCrumb from "../components/BreadCrumb";
-import {
-  AiFillHome,
-  AiFillPhone,
-  AiFillMail,
-  AiFillInfoCircle,
-} from "react-icons/ai";
+import React from 'react'
 
 const Contact = () => {
   return (
+<<<<<<< HEAD
     <>
       <Meta title="Contact" />
       <BreadCrumb title="Contact" />
@@ -31,7 +24,9 @@ const Contact = () => {
                   <h3 className="contact-title">Contact Us</h3>
                   <form action="" className="gap-20 d-flex flex-column">
                     <div className="form-group">
-                      {/* <label for="formControlInput1">Name</label> */}
+                      {/* <
+                      
+                      rmControlInput1">Name</label> */}
                       <input
                         type="text"
                         className="form-control"
@@ -58,7 +53,10 @@ const Contact = () => {
                       />
                     </div>
                     <div className="form-group">
-                      {/* <label for="exampleFormControlTextarea1">
+                      {/* <
+                      
+                      
+                      ampleFormControlTextarea1">
                         Example textarea
                       </label> */}
                       <textarea
@@ -107,5 +105,10 @@ const Contact = () => {
     </>
   );
 };
+=======
+    <div>Contact</div>
+  )
+}
+>>>>>>> parent of 11da0cb (static home page, store page, contact page, blog page and login register page:)
 
-export default Contact;
+export default Contact

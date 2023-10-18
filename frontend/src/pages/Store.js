@@ -161,7 +161,7 @@ const Store = () => {
                       <StarRatingComponent
                         name="rate1"
                         starCount={10}
-                        value="3"
+                        value={3}
                         activeColor="#ffd700"
                         edit={false}
                       />
@@ -183,7 +183,7 @@ const Store = () => {
                       <StarRatingComponent
                         name="rate1"
                         starCount={10}
-                        value="3"
+                        value={3}
                         activeColor="#ffd700"
                         edit={false}
                       />
