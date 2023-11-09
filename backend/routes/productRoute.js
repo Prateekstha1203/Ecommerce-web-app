@@ -16,7 +16,7 @@ const router = express.Router();
 
 router.post("/", authMiddleware, isAdmin, createProduct);
 router.get("/:productId", getaProduct);
-router.get("/",authMiddleware, isAdmin, getAllProduct);
+router.get("/", getAllProduct);
 router.put("/wishlist", authMiddleware, addWishlist);
 router.put("/rating", authMiddleware, rating);
 router.put("/:id", authMiddleware, isAdmin, updateProduct);

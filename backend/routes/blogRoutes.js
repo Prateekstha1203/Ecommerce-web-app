@@ -27,7 +27,7 @@ router.put(
 );
 
 router.put("/:id", authMiddleware, isAdmin, updateBlog);
-router.get("/:id", authMiddleware, isAdmin, getBlog);
-router.get("/", authMiddleware, isAdmin, getAllBlogs);
+router.get("/:id", getBlog);
+router.get("/" , getAllBlogs);
 router.delete("/:id", authMiddleware, isAdmin, deleteBlog);
 export default router;

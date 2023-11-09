@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Table } from "antd";
-// import {BiEdit} from "react-icons/bi";
-// import {RiDeleteBin5Fill} from "react-icons/ri";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllProducts } from "../../../features/product/productSlice";
+import { BiEdit } from "react-icons/bi";
+import { AiFillDelete } from "react-icons/ai";
+import { Link } from "react-router-dom";
 const ProductsList = () => {
   const columns = [
     {
@@ -9,97 +12,69 @@ const ProductsList = () => {
       dataIndex: "key",
     },
     {
-      title: "Customer",
-      dataIndex: "customer",
-      defaultSortOrder: "ascend",
-      sorter: (a, b) => a.customer.length - b.customer.length,
-      sortDirections: ["descend", "ascend"],
+      title: "Name",
+      dataIndex: "name",
+      defaultSortOrder: "descend",
+      sorter: (a, b) => a.name.localeCompare(b.name),
     },
     {
-      title: "Date",
-      dataIndex: "date",
-      defaultSortOrder: "ascend",
-      sorter: (a, b) => new Date(a.date) - new Date(b.date),
-      sortDirections: ["descend", "ascend"],
+      title: "Price",
+      dataIndex: "price",
+      sorter: (a, b) => a.price.localeCompare(b.price),
     },
     {
-      title: "Status",
-      dataIndex: "status",
+      title: "Category",
+      dataIndex: "category",
     },
     {
-      title: "Total",
-      dataIndex: "total",
-      defaultSortOrder: "ascend",
-      sorter: (a, b) => a.total - b.total,
-      sortDirections: ["descend", "ascend"],
+      title: "Brand",
+      dataIndex: "brand",
+    },
+    {
+      title: "Quantity",
+      dataIndex: "quantity",
+    },
+    {
+      title: "Action",
+      dataIndex: "action",
     },
   ];
-  const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
-  };
-  const dataTable = [
-    {
-      key: "1",
-      status: "Pending",
-      customer: "John Brown",
-      date: "2023-10-05",
-      total: 150,
-    },
-    {
-      key: "2",
-      status: "Completed",
-      customer: "Jim Green",
-      date: "2023-10-04",
-      total: 250,
-    },
-    {
-      key: "3",
-      status: "Pending",
-      customer: "Joe Black",
-      date: "2023-10-03",
-      total: 100,
-    },
-    {
-      key: "4",
-      status: "Completed",
-      customer: "Jim Red",
-      date: "2023-10-02",
-      total: 200,
-    },
-    {
-      key: "5",
-      status: "Pending",
-      customer: "Mary Yellow",
-      date: "2023-10-01",
-      total: 300,
-    },
-    {
-      key: "6",
-      status: "Completed",
-      customer: "Susan White",
-      date: "2023-09-30",
-      total: 180,
-    },
-    {
-      key: "7",
-      status: "Pending",
-      customer: "Bob Smith",
-      date: "2023-09-29",
-      total: 120,
-    },
-    {
-      key: "8",
-      status: "Completed",
-      customer: "Alice Blue",
-      date: "2023-09-28",
-      total: 210,
-    },
-  ];
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllProducts());
+  }, []);
+  const productState = useSelector((state) => state.product.products);
+  console.log(productState);
+
+  const productData = [];
+
+  for (let i = 0; i < productState.length; i++) {
+    productData.push({
+      key: i + 1,
+      name: productState[i].name,
+      price: productState[i].price,
+      category: productState[i].category,
+      brand: productState[i].brand,
+      quantity: productState[i].quantity,
+      action: (
+        <>
+          <Link to={`/admin/product/edit/${productState[i]._id}`}>
+            <BiEdit className="fs-3 text-primary " />
+          </Link>
+          <Link to={`/admin/product/delete/${productState[i]._id}`}>
+            <AiFillDelete className="fs-3 text-danger ms-3" />
+          </Link>
+        </>
+      ),
+    });
+  }
+
   return (
     <div>
       <h3 className="title">Recent Product</h3>
 
-      <Table columns={columns} dataSource={dataTable} onChange={onChange} />
+      <Table columns={columns} dataSource={productData} />
     </div>
   );
 };

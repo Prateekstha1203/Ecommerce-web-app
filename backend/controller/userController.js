@@ -16,6 +16,7 @@ export const createUser = expressAsyncHandler(async (req, res) => {
   const userExist = req.body.email;
   try {
     const findUser = await User.findOne({ email: userExist });
+    console.log(findUser)
     if (!findUser) {
       const newUser = await User.create(req.body);
       res.json({
@@ -68,7 +69,8 @@ export const loginAdmin = expressAsyncHandler(async (req, res) => {
   try {
     const findAdmin = await User.findOne({ email });
     if (findAdmin.role !== "admin") throw new Error("Not Authorized");
-    if (findAdmin && findAdmin.isPasswordMatched(password)) {
+
+    if (findAdmin && (await findAdmin.isPasswordMatched(password))) {
       const refreshToken = await generateRefreshToken(findAdmin?._id);
       const updateAdmin = await User.findById(
         findAdmin?._id,
@@ -90,7 +92,7 @@ export const loginAdmin = expressAsyncHandler(async (req, res) => {
         token: generateToken(findAdmin._id),
       });
     } else {
-      throw new Error("Unable to login to the system");
+      throw new Error("Invalid credentials");
     }
   } catch (error) {
     throw new Error(error);
@@ -259,7 +261,7 @@ export const forgetPasswordToken = expressAsyncHandler(async (req, res) => {
     if (!user) throw new Error("User not found with this email");
     const token = await user.createResetToken();
     await user.save();
-    const resetURL = `Hi, Please follow this link to reset Your Password. This link is valid till 10 minutes from now. <a href='http://localhost:5000/api/user/reset-password/${token}'>Click Here</>`;
+    const resetURL = `Hi, Please follow this link to reset Your Password. This link is valid till 10 minutes from now. <a href='http://localhost:/api/user/reset-password/${token}'>Click Here</>`;
     const data = {
       to: email,
       text: "Hey User",

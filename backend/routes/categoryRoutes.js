@@ -10,7 +10,7 @@ import { authMiddleware, isAdmin } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 router.post("/", authMiddleware, isAdmin, createCategory);
-router.get("/", authMiddleware, isAdmin, getAllCategory);
+router.get("/",getAllCategory);
 router.get("/:id", authMiddleware, isAdmin, getSingleCategory);
 router.put("/:id", authMiddleware, isAdmin, updateCategory);
 router.delete("/:id", authMiddleware, isAdmin, deleteCategory);

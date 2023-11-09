@@ -1,106 +1,64 @@
-import React from 'react'
+import React, { useEffect } from "react";
 import { Table } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllBlogsCategory } from "../../features/blogCategory/blogCategorySlice";
+import { BiEdit } from "react-icons/bi";
+import { AiFillDelete } from "react-icons/ai";
+import { Link } from "react-router-dom";
+
 const BlogCategory = () => {
-    const columns = [
-        {
-          title: "SN",
-          dataIndex: "key",
-        },
-        {
-          title: "Customer",
-          dataIndex: "customer",
-          defaultSortOrder: "ascend",
-          sorter: (a, b) => a.customer.length - b.customer.length,
-          sortDirections: ["descend", "ascend"],
-        },
-        {
-          title: "Date",
-          dataIndex: "date",
-          defaultSortOrder: "ascend",
-          sorter: (a, b) => new Date(a.date) - new Date(b.date),
-          sortDirections: ["descend", "ascend"],
-        },
-        {
-          title: "Status",
-          dataIndex: "status",
-        },
-        {
-          title: "Total",
-          dataIndex: "total",
-          defaultSortOrder: "ascend",
-          sorter: (a, b) => a.total - b.total,
-          sortDirections: ["descend", "ascend"],
-        },
-      ];
-      const onChange = (pagination, filters, sorter, extra) => {
-        console.log("params", pagination, filters, sorter, extra);
-      };
-      const dataTable = [
-        {
-          key: "1",
-          status: "Pending",
-          customer: "John Brown",
-          date: "2023-10-05",
-          total: 150,
-        },
-        {
-          key: "2",
-          status: "Completed",
-          customer: "Jim Green",
-          date: "2023-10-04",
-          total: 250,
-        },
-        {
-          key: "3",
-          status: "Pending",
-          customer: "Joe Black",
-          date: "2023-10-03",
-          total: 100,
-        },
-        {
-          key: "4",
-          status: "Completed",
-          customer: "Jim Red",
-          date: "2023-10-02",
-          total: 200,
-        },
-        {
-          key: "5",
-          status: "Pending",
-          customer: "Mary Yellow",
-          date: "2023-10-01",
-          total: 300,
-        },
-        {
-          key: "6",
-          status: "Completed",
-          customer: "Susan White",
-          date: "2023-09-30",
-          total: 180,
-        },
-        {
-          key: "7",
-          status: "Pending",
-          customer: "Bob Smith",
-          date: "2023-09-29",
-          total: 120,
-        },
-        {
-          key: "8",
-          status: "Completed",
-          customer: "Alice Blue",
-          date: "2023-09-28",
-          total: 210,
-        },
-      ];
-      return (
-        <div>
-          <h3 className="title">List of Blogs Category</h3>
-    
-          <Table columns={columns} dataSource={dataTable} onChange={onChange} />
-        </div>
-      );
-    };
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllBlogsCategory());
+  }, []);
+  const blogCategorystate = useSelector(
+    (state) => state.blogCategory.blogCategories
+  );
+  console.log(blogCategorystate);
+  const columns = [
+    {
+      title: "SN",
+      dataIndex: "key",
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+      defaultSortOrder: "ascend",
+      sorter: (a, b) => a.name.length - b.name.length,
+      sortDirections: ["descend", "ascend"],
+    },
+    {
+      title: "Action",
+      dataIndex: "action",
+    },
+  ];
+  let blogCategoryData = [];
+  for (let i = 0; i < blogCategorystate.length; i++) {
+    blogCategoryData.push({
+      key: i + 1,
+      name: blogCategorystate[i].title,
+      description: blogCategorystate[i].description,
+      category: blogCategorystate[i].category,
+      author: blogCategorystate[i].author,
+      action: (
+        <>
+          <Link to={`/admin/blogCategory/edit/${blogCategorystate[i]._id}`}>
+            <BiEdit className="fs-3 text-primary " />
+          </Link>
+          <Link to={`/admin/blogCategory/delete/${blogCategorystate[i]._id}`}>
+            <AiFillDelete className="fs-3 text-danger ms-3" />
+          </Link>
+        </>
+      ),
+    });
+  }
+  return (
+    <div>
+      <h3 className="title">List of Blogs Category</h3>
 
+      <Table dataSource={blogCategoryData}  columns={columns}/>
+    </div>
+  );
+};
 
-export default BlogCategory
+export default BlogCategory;

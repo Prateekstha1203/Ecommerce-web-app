@@ -42,7 +42,7 @@ router.put("/reset-password/:token", resetPassword);
 router.put("/password", authMiddleware, isAdmin, updatePassword);
 
 //CRUD OPERATION ON USER
-router.get("/allUser", authMiddleware, isAdmin, getAllUsers);
+router.get("/allUser",  getAllUsers);
 router.get("/:userId", authMiddleware, isAdmin, getSingleUser);
 router.delete("/:userId", authMiddleware, isAdmin, deleteUser);
 router.put("/edit-user", authMiddleware, updateUser);

@@ -10,7 +10,8 @@ import blogCategoryRouter from "./routes/blogCategoryRoutes.js";
 import couponRouter from "./routes/couponRoute.js";
 import cookieParser from "cookie-parser";
 import { errorHandler, notFound } from "./middleware/errorHandler.js";
-
+import cors from "cors";
+import bodyParser from "body-parser";
 import morgan from "morgan";
 
 const app = express();
@@ -18,6 +19,9 @@ dbConnect();
 dotenv.config();
 const PORT = process.env.PORT || 4000;
 
+app.use(cors()) 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -36,5 +40,5 @@ app.use("/api/coupon", couponRouter);
 app.use(notFound);
 app.use(errorHandler);
 app.listen(PORT, () => {
-  console.log(`Server is runnning at port ${PORT}`);
+  console.log(`Servers is runnning at port ${PORT}`);
 });

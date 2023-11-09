@@ -10,7 +10,7 @@ import { authMiddleware, isAdmin } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 router.post("/", authMiddleware, isAdmin, createBrand);
-router.get("/", authMiddleware, isAdmin, getAllBrand);
+router.get("/", getAllBrand);
 router.get("/:id", authMiddleware, isAdmin, getSingleBrand);
 router.put("/:id", authMiddleware, isAdmin, updateBrand);
 router.delete("/:id", authMiddleware, isAdmin, deleteBrand);
