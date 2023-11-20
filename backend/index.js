@@ -5,9 +5,13 @@ import authRouter from "./routes/authRoutes.js";
 import productRouter from "./routes/productRoute.js";
 import blogRouter from "./routes/blogRoutes.js";
 import categoryRouter from "./routes/categoryRoutes.js";
+import enquiryRouter from "./routes/enquiryRoute.js";
+
 import brandRouter from "./routes/brandRoutes.js";
 import blogCategoryRouter from "./routes/blogCategoryRoutes.js";
 import couponRouter from "./routes/couponRoute.js";
+import colorRouter from "./routes/colorRoutes.js"
+import uploadRouter from "./routes/uploadRoute.js";
 import cookieParser from "cookie-parser";
 import { errorHandler, notFound } from "./middleware/errorHandler.js";
 import cors from "cors";
@@ -37,6 +41,9 @@ app.use("/api/category", categoryRouter);
 app.use("/api/brand", brandRouter);
 app.use("/api/blogCategory", blogCategoryRouter);
 app.use("/api/coupon", couponRouter);
+app.use("/api/enquiry", enquiryRouter);
+app.use("/api/color", colorRouter);
+app.use("/api/upload", uploadRouter);
 app.use(notFound);
 app.use(errorHandler);
 app.listen(PORT, () => {

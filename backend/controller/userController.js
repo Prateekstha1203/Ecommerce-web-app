@@ -158,7 +158,10 @@ export const getAllUsers = expressAsyncHandler(async (req, res) => {
 
 export const getSingleUser = expressAsyncHandler(async (req, res) => {
   const { userId } = req.params;
-  validMongodbId(userId);
+
+  // Validate MongoDB ID
+ console.log(userId, req.params)
+
   try {
     const userDetail = await User.findById(userId);
     res.send(userDetail);
@@ -316,41 +319,6 @@ export const getWishlist = expressAsyncHandler(async (req, res) => {
   }
 });
 
-// export const userCart = expressAsyncHandler(async (req, res) => {
-//   const cart = req.body;
-//   const { _id } = req.params;
-//   validMongodbId(_id);
-//   try {
-//     const products = [];
-//     const user = await findById(_id);
-//     const alreadExistCart = await Cart.findOne({ orderBy: user._id });
-//     if (alreadExistCart) {
-//       alreadExistCart.remove();
-//     }
-//     for (let i = 0; i < cart.length; i++) {
-//       let object = {};
-//       object.product = cart[i]._id;
-//       object.color = cart[i].color;
-//       object.count = cart[i].count;
-//       let getPrice = await Product.findById(cart[i]._id).select("price").exec();
-//       object.price = getPrice.price;
-//       products.push(object);
-//     }
-//     let cartTotal = 0;
-//     for (let i = 0; i < products.length; i++) {
-//       cartTotal += products[i].price * products[i].count;
-//     }
-//     let newCart = await new Cart({
-//       products,
-//       cartTotal,
-//       orderby: user?._id,
-//     }).save();
-//     res.json(newCart);
-//   } catch (error) {
-//     throw new Error(error);
-//   }
-// });
-
 export const userCart = expressAsyncHandler(async (req, res) => {
   const { _id } = req.user;
   const cartArray = req.body.cart;
@@ -392,12 +360,14 @@ export const userCart = expressAsyncHandler(async (req, res) => {
 export const getUserCart = expressAsyncHandler(async (req, res) => {
   const { _id } = req.user;
   validMongodbId(_id);
+  console.log(_id)
   try {
-    const userCart = await Cart.findOne({ orderby: _id }).populate(
-      "products.product",
-      "_id name price totalAfterDiscount"
+    console.log("User",_id)
+    const cart = await Cart.findOne({ orderby: _id }).populate(
+      "products.product"
     );
-    res.json(userCart);
+    console.log("cart",cart)
+    res.json(cart);
   } catch (error) {
     throw new Error(error);
   }
@@ -443,28 +413,28 @@ export const applyCoupon = expressAsyncHandler(async (req, res) => {
 export const createOrder = expressAsyncHandler(async (req, res) => {
   const { _id } = req.user;
   const { COD, couponApplied } = req.body;
+  console.log(COD, couponApplied)
   validMongodbId(_id);
   try {
     if (!COD) throw new Error("Create cash order fail!!!");
 
     const user = await User.findById(_id);
-    const userCart = await Cart.findOne({ orderby: user._id }).populate(
-      "products.product"
-    );
+    console.log("User",user)
 
-    let finalCost = 0;
-    if (couponApplied && userCart?.totalAfterDiscount) {
-      finalCost = userCart?.totalAfterDiscount;
+    let userCart = await Cart.findOne({ orderby: user._id });
+    console.log("usercart",userCart)  
+    let finalAmount = 0;
+    if (couponApplied && userCart.totalAfterDiscount) {
+      finalAmount = userCart.totalAfterDiscount;
     } else {
-      finalCost = userCart?.cartTotal;
+      finalAmount = userCart.cartTotal;
     }
-
     let newOrder = await new Order({
       products: userCart.products,
       paymentIntent: {
         id: uniqid(),
         method: "COD",
-        amount: finalCost,
+        amount: finalAmount,
         status: "Cash on Delivery",
         created: Date.now(),
         currency: "usd",
@@ -472,7 +442,6 @@ export const createOrder = expressAsyncHandler(async (req, res) => {
       orderby: user._id,
       orderStatus: "Cash on Delivery",
     }).save();
-
     let update = userCart.products.map((item) => {
       return {
         updateOne: {
@@ -490,7 +459,7 @@ export const createOrder = expressAsyncHandler(async (req, res) => {
 
 export const getOrders = expressAsyncHandler(async (req, res) => {
   const { _id } = req.user;
-  validateMongoDbId(_id);
+  validMongodbId(_id);
   try {
     const userorders = await Order.findOne({ orderby: _id })
       .populate("products.product")

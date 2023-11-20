@@ -1,103 +1,89 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Table } from "antd";
+
+import { getAllEnquiry } from "../../features/enquiry/enquirySlice";
+import { useDispatch, useSelector } from "react-redux";
+import { BiEdit } from "react-icons/bi";
+import { AiFillDelete } from "react-icons/ai";
+import { Link } from "react-router-dom";
+
 const Enquiries = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllEnquiry());
+  }, []);
+
+  const enquirystate = useSelector((state) => state.enquiry.enquiries);
+  const enquiryData = [];
+  for (let i = 0; i < enquirystate.length; i++) {
+    enquiryData.push({
+      key: i + 1,
+      name: enquirystate[i].name,
+      email: enquirystate[i].email,
+      mobile: enquirystate[i].mobile,
+      comment: enquirystate[i].comment,
+      status: (
+        <>
+          <select className="form-control form-select" name="">
+         
+            <option value="">Set status</option>
+            <option value="">Set status</option>
+            <option value="">Set status</option>
+            <option value="">Set status</option>
+          </select>
+        </>
+      ),
+      action: (
+        <>
+          <Link to={`/admin/enquiry/edit/${enquirystate[i]._id}`}>
+            <BiEdit className="fs-3 text-primary " />
+          </Link>
+          <Link to={`/admin/enquiry/delete/${enquirystate[i]._id}`}>
+            <AiFillDelete className="fs-3 text-danger ms-3" />
+          </Link>
+        </>
+      ),
+    });
+  }
   const columns = [
     {
       title: "SN",
       dataIndex: "key",
     },
     {
-      title: "Customer",
-      dataIndex: "customer",
+      title: "Name",
+      dataIndex: "name",
       defaultSortOrder: "ascend",
-      sorter: (a, b) => a.customer.length - b.customer.length,
-      sortDirections: ["descend", "ascend"],
+      sorter: (a, b) => a.name.length - b.name.length,
+    },
+
+    {
+      title: "Email",
+      dataIndex: "email",
     },
     {
-      title: "Date",
-      dataIndex: "date",
-      defaultSortOrder: "ascend",
-      sorter: (a, b) => new Date(a.date) - new Date(b.date),
-      sortDirections: ["descend", "ascend"],
+      title: "Mobile",
+      dataIndex: "mobile",
+    },
+    {
+      title: "Comment",
+      dataIndex: "comment",
     },
     {
       title: "Status",
       dataIndex: "status",
     },
     {
-      title: "Total",
-      dataIndex: "total",
-      defaultSortOrder: "ascend",
-      sorter: (a, b) => a.total - b.total,
-      sortDirections: ["descend", "ascend"],
+      title: "Action",
+      dataIndex: "action",
     },
   ];
-  const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
-  };
-  const dataTable = [
-    {
-      key: "1",
-      status: "Pending",
-      customer: "John Brown",
-      date: "2023-10-05",
-      total: 150,
-    },
-    {
-      key: "2",
-      status: "Completed",
-      customer: "Jim Green",
-      date: "2023-10-04",
-      total: 250,
-    },
-    {
-      key: "3",
-      status: "Pending",
-      customer: "Joe Black",
-      date: "2023-10-03",
-      total: 100,
-    },
-    {
-      key: "4",
-      status: "Completed",
-      customer: "Jim Red",
-      date: "2023-10-02",
-      total: 200,
-    },
-    {
-      key: "5",
-      status: "Pending",
-      customer: "Mary Yellow",
-      date: "2023-10-01",
-      total: 300,
-    },
-    {
-      key: "6",
-      status: "Completed",
-      customer: "Susan White",
-      date: "2023-09-30",
-      total: 180,
-    },
-    {
-      key: "7",
-      status: "Pending",
-      customer: "Bob Smith",
-      date: "2023-09-29",
-      total: 120,
-    },
-    {
-      key: "8",
-      status: "Completed",
-      customer: "Alice Blue",
-      date: "2023-09-28",
-      total: 210,
-    },
-  ];
+
   return (
     <div>
       <h3 className="title">Recent Enquiries</h3>
 
-      <Table columns={columns} dataSource={dataTable} onChange={onChange} />
+      <Table columns={columns} dataSource={enquiryData} />
     </div>
   );
 };

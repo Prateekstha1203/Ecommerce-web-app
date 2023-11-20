@@ -6,7 +6,7 @@ const CustomInput = (props) => {
     <div className="form-floating mt-3">
       <input
         type={type}
-        className={`form-control `}
+        className={`form-control my-4`}
         id={i_id}
         placeholder={label}
         name={name}

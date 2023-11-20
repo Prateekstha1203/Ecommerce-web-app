@@ -8,6 +8,9 @@ import {
   BiSolidCoupon,
   BiSolidColorFill,
 } from "react-icons/bi";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import { IoIosNotifications } from "react-icons/io";
 import { ImBlog } from "react-icons/im";
 import { BsFillClipboardCheckFill, BsCardList } from "react-icons/bs";
@@ -238,6 +241,17 @@ const MainLayout = () => {
             background: colorBgContainer,
           }}
         >
+          <ToastContainer
+            position="top-right"
+            autoClose={250}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="light"
+          />
           <Outlet />
         </Content>
       </Layout>

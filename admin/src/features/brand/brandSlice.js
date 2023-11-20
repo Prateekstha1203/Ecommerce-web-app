@@ -3,6 +3,7 @@ import brandService from './brandService';
 
 const initialState = {
     brands: [],
+    createBrands: {},
     isError: false,
     isLoading: false,
     isSuccess: false,
@@ -19,6 +20,21 @@ export const getAllBrands = createAsyncThunk(
         }
     }
 );
+
+export const createBrands = createAsyncThunk(
+    'brand/create-brands',
+    async (brandData, thunkAPI) => {
+      try {
+        const response = await brandService.createBrands(brandData);
+        console.log(response);
+        return response; 
+      } catch (error) {
+        return thunkAPI.rejectWithValue(error.response.data); 
+      }
+    }
+  );
+  
+  
 
 export const brandSlice = createSlice({
     name: 'brands',
@@ -40,7 +56,23 @@ export const brandSlice = createSlice({
             state.isError = true;
             state.isSuccess = false;
             state.message = action.error.message;
+        })
+        .addCase(createBrands.pending, (state) => {
+            state.isLoading = true;
+        })
+        .addCase(createBrands.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isError = false;
+            state.isSuccess = true;
+            state.createBrands = action.payload;
+        })
+        .addCase(createBrands.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.isSuccess = false;
+            state.message = action.error.message;
         });
+
     },
 });
 

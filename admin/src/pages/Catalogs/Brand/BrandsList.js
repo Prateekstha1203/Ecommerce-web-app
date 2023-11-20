@@ -16,12 +16,11 @@ const BrandsList = () => {
 
   const brandstate = useSelector((state) => state.brand.brands);
 
-  console.log(brandstate)
   const brandData = [];
   for (let i = 0; i < brandstate.length; i++) {
     brandData.push({
       key: i + 1,
-      name: brandstate[i].title,
+      name: brandstate[i].brand,
       action: (
         <>
           <Link to={`/admin/brand/edit/${brandstate[i]._id}`}>
@@ -40,7 +39,7 @@ const BrandsList = () => {
       dataIndex: "key",
     },
      {
-    title: "Title",
+    title: "brand",
     dataIndex: "name", 
     sorter: (a, b) => a.name.localeCompare(b.name), 
   },
@@ -51,7 +50,7 @@ const BrandsList = () => {
   ]
   return (
     <div>
-      <h3 className="title">List of Brands</h3>
+      <h3 className="brand">List of Brands</h3>
 
       <Table columns={columns} dataSource={brandData} />
     </div>

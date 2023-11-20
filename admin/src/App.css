@@ -49,6 +49,12 @@ body {
   display: none;
 }
 
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
 .logo {
   height: 64px;
   background-color: #ffd333;

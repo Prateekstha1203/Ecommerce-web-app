@@ -13,7 +13,7 @@ const CategoryList = () => {
   },[])
 
   const categorystate = useSelector((state) => state.category.categories);
-  console.log(categorystate)
+
 
   const categoryData = [];
   for (let i = 0; i < categorystate.length; i++) {

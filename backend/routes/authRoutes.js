@@ -56,9 +56,11 @@ router.get("/wishlist", authMiddleware, getWishlist);
 router.put("/save-address", authMiddleware, saveAddress);
 
 //Cart
-router.post("/cart", authMiddleware, userCart);
-router.get("/cart", authMiddleware, getUserCart);
+router.post("/cart/viewcart", authMiddleware, userCart);
+router.get("/cart/user-cart", authMiddleware, getUserCart);
 router.delete("/cart", authMiddleware, emptyCart);
+
+
 router.post("/cart/cash-order", authMiddleware, createOrder);
 
 
@@ -66,9 +68,9 @@ router.post("/cart/cash-order", authMiddleware, createOrder);
 router.post("/cart/coupon", authMiddleware, applyCoupon);
 
 //Orders
-router.get("/get-orders", authMiddleware, getOrders);
-router.get("/getallorders", authMiddleware, isAdmin, getAllOrders);
-router.post("/getorderbyuser/:id", authMiddleware, isAdmin, getOrderByUserId);
+router.get("/order/get-orders", authMiddleware, getOrders);
+router.get("/order/getallorders", authMiddleware, isAdmin, getAllOrders);
+router.post("/order/getorderbyuser/:id", authMiddleware, isAdmin, getOrderByUserId);
 router.put(
   "/order/update-order/:id",
   authMiddleware,

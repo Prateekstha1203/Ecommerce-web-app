@@ -1,6 +1,5 @@
 import Coupon from "../models/couponModel.js";
 import expressAsyncHandler from "express-async-handler";
-import { validMongodbId } from "../utils/validateMongodbId.js";
 
 export const createCoupon = expressAsyncHandler(async (req, res) => {
   try {

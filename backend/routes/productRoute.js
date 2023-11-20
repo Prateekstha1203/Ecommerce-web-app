@@ -7,8 +7,9 @@ import {
   deleteProduct,
   addWishlist,
   rating,
-  uploadImage
+
 } from "../controller/productController.js";
+import { uploadImage } from "../controller/uploadImageController.js";
 import { authMiddleware, isAdmin } from "../middleware/authMiddleware.js";
 import { productImgResize, uploadPhoto } from "../middleware/uploadImage.js";
 
